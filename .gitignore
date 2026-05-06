@@ -1,0 +1,25 @@
+# 密钥 & 环境变量
+.env
+
+# Python 虚拟环境
+.venv/
+
+# Python 缓存 & 编译产物
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Jupyter Notebook 缓存
+.ipynb_checkpoints/
+*.ipynb_checkpoints/
+
+# IDE & 系统文件
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# 日志
+*.log
