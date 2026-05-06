@@ -29,6 +29,10 @@ uv run python function_calling_agent.py
 uv run jupyter notebook function_calling_agent.ipynb
 ```
 
+## 提交规范
+
+提交时**必须**调用 `gitmoji-commit` skill：`Skill(skill: "gitmoji-commit")`。该 skill 会自动分析暂存区变更、生成符合 Gitmoji 规范的中文提交信息并执行本地提交（不推送）。
+
 ## 架构
 
 整个项目遵循 **ReAct (Reasoning + Acting)** 模式，四个层级加一个入口：
