@@ -16,8 +16,8 @@ API：DeepSeek API（OpenAI 兼容接口）
   今天（MCP）:   用户 → Agent Loop → LLM → tool_calls → MCP Client → MCP Server → 执行 → 回传
 
 运行方式：
-  uv run python mcp_agent.py            # 客户端模式：启动 Server + 运行测试
-  uv run python mcp_agent.py serve      # 服务端模式：独立启动 MCP Server（供调试用）
+  uv run python exercises/w1d2-mcp-server/agent.py            # 客户端模式：启动 Server + 运行测试
+  uv run python exercises/w1d2-mcp-server/agent.py serve      # 服务端模式：独立启动 MCP Server（供调试用）
 
 ==================== 参考资料 ====================
   MCP 官方文档:    https://modelcontextprotocol.io

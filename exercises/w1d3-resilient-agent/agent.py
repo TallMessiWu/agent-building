@@ -17,8 +17,8 @@ API：DeepSeek API（OpenAI 兼容接口）
   今天（弹性 FC）: 用户 → Agent Loop → LLM → tool_calls → [重试→校验→熔断→降级] → 回传 → 最终答案
 
 运行方式：
-  uv run python resilient_agent.py           # 默认：运行全部测试（正常模式）
-  uv run python resilient_agent.py chaos     # 混沌模式：注入随机故障，展示弹性能力
+  uv run python exercises/w1d3-resilient-agent/agent.py           # 默认：运行全部测试（正常模式）
+  uv run python exercises/w1d3-resilient-agent/agent.py chaos     # 混沌模式：注入随机故障，展示弹性能力
 
 ==================== 参考资料 ====================
   Anthropic: Writing Effective Tools   https://www.anthropic.com/engineering/writing-tools-for-agents

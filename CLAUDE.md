@@ -6,6 +6,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Agent 动手实践项目，主题为纯手写 Function Calling Agent（零框架），使用 DeepSeek API（OpenAI 兼容接口）实现 ReAct 模式下的工具调用循环。
 
+整个仓库分为两部分：
+- **`exercises/`** — 日常编程练习，按 `w<周>d<天>-<主题>` 组织
+- **根目录 `*-agent/`** — 三个简历项目（react-agent / research-assistant / multi-agent-collab）
+
 ## 开发环境
 
 - **Python 版本**: 3.14
@@ -22,16 +26,33 @@ uv sync
 # 添加新依赖
 uv add <package>
 
-# 运行 Agent 脚本
-uv run python function_calling_agent.py
+# 运行练习脚本
+uv run python exercises/w1d1-function-calling/agent.py
+uv run python exercises/w1d2-mcp-server/agent.py
+uv run python exercises/w1d2-mcp-server/agent.py serve    # MCP Server 独立模式
+uv run python exercises/w1d3-resilient-agent/agent.py
+uv run python exercises/w1d3-resilient-agent/agent.py --chaos  # 混沌模式
 
 # 启动 Jupyter Notebook
-uv run jupyter notebook function_calling_agent.ipynb
+uv run jupyter notebook exercises/w1d1-function-calling/agent.ipynb
+uv run jupyter notebook exercises/w1d2-mcp-server/agent.ipynb
+uv run jupyter notebook exercises/w1d3-resilient-agent/agent.ipynb
 ```
 
 ## 提交规范
 
 提交时**必须**调用 `gitmoji-commit` skill：`Skill(skill: "gitmoji-commit")`。该 skill 会自动分析暂存区变更、生成符合 Gitmoji 规范的中文提交信息并执行本地提交（不推送）。
+
+## ⚠️ 每日提交前必做
+
+**每天学习结束、提交代码前，更新 `README.md`**（进度以 README 为准，CLAUDE.md 不重复维护进度表）：
+
+- 在"学习时间线"表格中标记当天完成状态
+- 如有新文件，在"目录结构"中体现
+
+> Claude 启动时自动读取 README.md，立刻知道当前进度和昨天产出的文件位置。
+
+---
 
 ## 架构
 
@@ -47,6 +68,19 @@ uv run jupyter notebook function_calling_agent.ipynb
 
 ## 文件说明
 
-- `function_calling_agent.py` — 完整可独立运行的 Agent 脚本，包含 6 个测试用例
-- `function_calling_agent.ipynb` — 交互式学习 Notebook，分步骤讲解 Agent 构建过程，支持自由输入测试
-- `Agent_4周学习计划.xlsx` — 四周学习计划表（结构化参考文档）
+```
+exercises/
+├── w1d1-function-calling/             # Day 1: 纯 Function Calling
+│   ├── agent.py                       #   完整脚本，包含 6 个测试用例
+│   └── agent.ipynb                    #   交互式 Notebook，分步骤讲解
+├── w1d2-mcp-server/                   # Day 2: MCP 协议改造
+│   ├── agent.py                       #   MCP Server + Client，6 个测试用例
+│   └── agent.ipynb                    #   交互式 Notebook
+└── w1d3-resilient-agent/              # Day 3: 弹性 Agent
+    ├── agent.py                       #   重试/熔断/降级 + 混沌模式
+    └── agent.ipynb                    #   交互式 Notebook（45 cells）
+
+react-agent/                           # ★ 项目 1: 手写 ReAct Agent（05-09~10）
+research-assistant/                    # ★ 项目 2: 长期记忆研究助手（05-16~17）
+multi-agent-collab/                    # ★ 项目 3: Multi-Agent 协作写作（05-23~24）
+```
