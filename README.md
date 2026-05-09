@@ -37,6 +37,8 @@ agent-building/
 │       └── agent.ipynb                #   交互式 Notebook（45 cells）
 │
 ├── react-agent/                       # ★ 项目 1: 手写 ReAct Agent
+│   ├── agent.py                       #   完整 Agent：GitHub API + 弹性 + ReAct 循环
+│   └── agent.ipynb                    #   交互式 Notebook（8 步骤拆解）
 ├── research-assistant/                # ★ 项目 2: 长期记忆研究助手
 └── multi-agent-collab/                # ★ 项目 3: Multi-Agent 协作写作
 ```
@@ -48,7 +50,7 @@ agent-building/
 | 05-06 | **Function Calling** | `exercises/w1d1-function-calling/` | #1-11 | ReAct 循环、eval 沙箱、tool_choice |
 | 05-07 | **MCP 协议改造** | `exercises/w1d2-mcp-server/` | #12-13 | Server/Client 架构、list_tools/call_tool、MCP→OpenAI 格式转换 |
 | 05-08 | **弹性 Agent** | `exercises/w1d3-resilient-agent/` | #14 | 指数退避重试、Circuit Breaker 三态熔断、结果校验、混沌工程 |
-| 05-09 | ★ **项目 1** | `react-agent/` | #5,7,8 | 手写 ReAct Agent，完成 GitHub repo 分析报告 |
+| 05-09 | ★ **项目 1** ✅ | `react-agent/` | #5,7,8 | 手写 ReAct Agent，完成 GitHub repo 分析报告 |
 | 05-11+ | **LangGraph** (WIP) | `exercises/w2d1-langgraph/` | #24,27 | StateGraph、Checkpoint 持久化 |
 
 ## 快速开始
@@ -64,10 +66,14 @@ uv run python exercises/w1d2-mcp-server/agent.py serve    # MCP Server 独立模
 uv run python exercises/w1d3-resilient-agent/agent.py
 uv run python exercises/w1d3-resilient-agent/agent.py --chaos  # 混沌模式 🌪️
 
+# 简历项目
+uv run python react-agent/agent.py                           # ★ ReAct Agent — GitHub 仓库分析
+
 # 交互式学习
 uv run jupyter notebook exercises/w1d1-function-calling/agent.ipynb
 uv run jupyter notebook exercises/w1d2-mcp-server/agent.ipynb
 uv run jupyter notebook exercises/w1d3-resilient-agent/agent.ipynb
+uv run jupyter notebook react-agent/agent.ipynb              # ReAct Agent 交互式讲解
 ```
 
 ## 技术亮点（面试可说）
@@ -80,6 +86,7 @@ uv run jupyter notebook exercises/w1d3-resilient-agent/agent.ipynb
 | **指数退避 + 抖动** | `w1d3/agent.py` — resilient_execute_tool() | 避免雷鸣羊群效应，生产级重试必备 |
 | **混沌工程** | `w1d3/agent.py` — chaos_inject() | Netflix Chaos Monkey 思路，主动注入故障验证弹性 |
 | **结果校验层** | `w1d3/agent.py` — validate_*_result() | 防止垃圾数据污染 LLM 上下文 |
+| **GitHub ReAct Agent** | `react-agent/agent.py` — 完整 ReAct 循环 | 真实 API 集成 + 弹性三层 + 结构化报告生成 |
 
 ## 技术栈
 
