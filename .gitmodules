@@ -1,0 +1,3 @@
+[submodule "react-agent"]
+	path = react-agent
+	url = https://github.com/TallMessiWu/react-agent.git

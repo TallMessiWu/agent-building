@@ -36,8 +36,8 @@ agent-building/
 │       ├── agent.py                   #   重试/熔断/降级 + 混沌模式
 │       └── agent.ipynb                #   交互式 Notebook（45 cells）
 │
-├── react-agent/                       # ★ 项目 1: 手写 ReAct Agent
-│   ├── agent.py                       #   完整 Agent：GitHub API + 弹性 + ReAct 循环
+├── react-agent/                       # 📦 子模块 → TallMessiWu/react-agent
+│   ├── agent.py                       #   完整 ReAct Agent：GitHub API + 弹性三层 + 分析报告
 │   └── agent.ipynb                    #   交互式 Notebook（8 步骤拆解）
 ├── research-assistant/                # ★ 项目 2: 长期记忆研究助手
 └── multi-agent-collab/                # ★ 项目 3: Multi-Agent 协作写作
@@ -51,11 +51,15 @@ agent-building/
 | 05-07 | **MCP 协议改造** | `exercises/w1d2-mcp-server/` | #12-13 | Server/Client 架构、list_tools/call_tool、MCP→OpenAI 格式转换 |
 | 05-08 | **弹性 Agent** | `exercises/w1d3-resilient-agent/` | #14 | 指数退避重试、Circuit Breaker 三态熔断、结果校验、混沌工程 |
 | 05-09 | ★ **项目 1** ✅ | `react-agent/` | #5,7,8 | 手写 ReAct Agent，完成 GitHub repo 分析报告 |
+| 05-10 | ★ **项目 1 完成** ✅ | 📦 子模块 `react-agent/` | #14, 总复习1-16 | GitHub 仓库独立发布 + 简历段落 + 周复盘 |
 | 05-11+ | **LangGraph** (WIP) | `exercises/w2d1-langgraph/` | #24,27 | StateGraph、Checkpoint 持久化 |
 
 ## 快速开始
 
 ```bash
+# 克隆（含子模块）
+git clone --recurse-submodules https://github.com/TallMessiWu/agent-building.git
+
 # 安装依赖
 uv sync
 
