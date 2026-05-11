@@ -27,6 +27,7 @@ API：DeepSeek API（OpenAI 兼容接口）
 运行方式：
   uv run python exercises/w2d1-langgraph/agent.py           # 基础测试
   uv run python exercises/w2d1-langgraph/agent.py --memory  # 额外展示 Checkpoint 持久化
+  uv run python exercises/w2d1-langgraph/agent.py --graph   # 打印图拓扑（Mermaid 格式，可复制到 mermaid.live 查看）
 
 参考资料：
   LangGraph 文档:    https://langchain-ai.github.io/langgraph/
@@ -374,11 +375,33 @@ def run_memory_tests(app):
 
 def main():
     show_memory = "--memory" in sys.argv
+    show_graph = "--graph" in sys.argv
 
     db_path = "exercises/w2d1-langgraph/checkpoints.db"
 
     with SqliteSaver.from_conn_string(db_path) as checkpointer:
         app = build_graph(checkpointer=checkpointer)
+
+        if show_graph:
+            print("=" * 60)
+            print("LangGraph 图拓扑 — Mermaid 格式")
+            print("（可复制到 https://mermaid.live 查看或粘贴到支持 Mermaid 的 Markdown 编辑器）")
+            print("=" * 60)
+            print()
+            print(app.get_graph(xray=True).draw_mermaid())
+            print()
+            print("=" * 60)
+            print("图例说明")
+            print("=" * 60)
+            print("  __start__ → chatbot:  入口，首次输入从 chatbot 开始")
+            print("  chatbot → tools:      条件边，LLM 返回 tool_calls 时走这条路")
+            print("  tools → chatbot:      固定边，工具执行完回到 LLM")
+            print("  chatbot → __end__:    条件边，LLM 直接文本回复时结束")
+            print()
+            print("🔍 节点内部逻辑：")
+            print("  chatbot — 注入 System Prompt → 调 DeepSeek API > 返回 AIMessage")
+            print("  tools   — 读取最后一条消息的 tool_calls → 执行@tool函数 → 返回 ToolMessage")
+            return
 
         print("=" * 60)
         print("LangGraph Agent — StateGraph + SQLite Checkpoint")
