@@ -32,9 +32,12 @@ agent-building/
 │   ├── w1d2-mcp-server/               # Day 2: MCP 协议改造
 │   │   ├── agent.py                   #   MCP Server + Client（6 测试用例）
 │   │   └── agent.ipynb                #   交互式 Notebook（13 步骤）
-│   └── w1d3-resilient-agent/          # Day 3: 弹性 Agent
-│       ├── agent.py                   #   重试/熔断/降级 + 混沌模式
-│       └── agent.ipynb                #   交互式 Notebook（45 cells）
+│   ├── w1d3-resilient-agent/          # Day 3: 弹性 Agent
+│   │   ├── agent.py                   #   重试/熔断/降级 + 混沌模式
+│   │   └── agent.ipynb                #   交互式 Notebook（45 cells）
+│   └── w2d1-langgraph/                # Day 4: LangGraph StateGraph ✅
+│       ├── agent.py                   #   StateGraph + SQLite Checkpoint（4 测试用例）
+│       └── agent.ipynb                #   交互式 Notebook（10 cells）
 │
 ├── react-agent/                       # 📦 子模块 → TallMessiWu/react-agent
 │   ├── agent.py                       #   完整 ReAct Agent：GitHub API + 弹性三层 + 分析报告
@@ -52,7 +55,7 @@ agent-building/
 | 05-08 | **弹性 Agent** | `exercises/w1d3-resilient-agent/` | #14 | 指数退避重试、Circuit Breaker 三态熔断、结果校验、混沌工程 |
 | 05-09 | ★ **项目 1** ✅ | `react-agent/` | #5,7,8 | 手写 ReAct Agent，完成 GitHub repo 分析报告 |
 | 05-10 | ★ **项目 1 完成** ✅ | 📦 子模块 `react-agent/` | #14, 总复习1-16 | GitHub 仓库独立发布 + 简历段落 + 周复盘 |
-| 05-11+ | **LangGraph** (WIP) | `exercises/w2d1-langgraph/` | #24,27 | StateGraph、Checkpoint 持久化 |
+| 05-11 | ✅ **LangGraph** | `exercises/w2d1-langgraph/` | #24,27 | StateGraph、Checkpoint 持久化、reasoning_content 兼容 |
 
 ## 快速开始
 
@@ -69,6 +72,8 @@ uv run python exercises/w1d2-mcp-server/agent.py
 uv run python exercises/w1d2-mcp-server/agent.py serve    # MCP Server 独立模式
 uv run python exercises/w1d3-resilient-agent/agent.py
 uv run python exercises/w1d3-resilient-agent/agent.py --chaos  # 混沌模式 🌪️
+uv run python exercises/w2d1-langgraph/agent.py               # LangGraph StateGraph
+uv run python exercises/w2d1-langgraph/agent.py --memory      # + Checkpoint 记忆演示
 
 # 简历项目
 uv run python react-agent/agent.py                           # ★ ReAct Agent — GitHub 仓库分析
@@ -78,6 +83,7 @@ uv run jupyter notebook exercises/w1d1-function-calling/agent.ipynb
 uv run jupyter notebook exercises/w1d2-mcp-server/agent.ipynb
 uv run jupyter notebook exercises/w1d3-resilient-agent/agent.ipynb
 uv run jupyter notebook react-agent/agent.ipynb              # ReAct Agent 交互式讲解
+uv run jupyter notebook exercises/w2d1-langgraph/agent.ipynb # LangGraph 交互式讲解
 ```
 
 ## 技术亮点（面试可说）
@@ -91,7 +97,8 @@ uv run jupyter notebook react-agent/agent.ipynb              # ReAct Agent 交�
 | **混沌工程** | `w1d3/agent.py` — chaos_inject() | Netflix Chaos Monkey 思路，主动注入故障验证弹性 |
 | **结果校验层** | `w1d3/agent.py` — validate_*_result() | 防止垃圾数据污染 LLM 上下文 |
 | **GitHub ReAct Agent** | `react-agent/agent.py` — 完整 ReAct 循环 | 真实 API 集成 + 弹性三层 + 结构化报告生成 |
+| **LangGraph StateGraph** | `w2d1/agent.py` — build_graph() | 图结构控制流、Checkpoint 持久化、多用户会话隔离 |
 
 ## 技术栈
 
-`Python 3.14` · `OpenAI SDK (DeepSeek API)` · `MCP Python SDK` · `asyncio` · `Jupyter Notebook` · `uv`
+`Python 3.14` · `OpenAI SDK (DeepSeek API)` · `MCP Python SDK` · `LangGraph` · `langchain-core` · `asyncio` · `Jupyter Notebook` · `uv`
