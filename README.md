@@ -36,8 +36,11 @@ agent-building/
 │   │   ├── agent.py                   #   重试/熔断/降级 + 混沌模式
 │   │   └── agent.ipynb                #   交互式 Notebook（45 cells）
 │   └── w2d1-langgraph/                # Day 4: LangGraph StateGraph ✅
-│       ├── agent.py                   #   StateGraph + SQLite Checkpoint（4 测试用例）
-│       └── agent.ipynb                #   交互式 Notebook（10 cells）
+│   │   ├── agent.py                   #   StateGraph + SQLite Checkpoint（4 测试用例）
+│   │   └── agent.ipynb                #   交互式 Notebook（10 cells）
+│   └── w2d2-langgraph-hitl/           # Day 5: LangGraph HITL + Subgraph ✅
+│       ├── agent.py                   #   interrupt_before 断点 + 恢复 + 子图（3 模式）
+│       └── agent.ipynb                #   交互式 Notebook（11 cells）
 │
 ├── react-agent/                       # 📦 子模块 → TallMessiWu/react-agent
 │   ├── agent.py                       #   完整 ReAct Agent：GitHub API + 弹性三层 + 分析报告
@@ -56,6 +59,7 @@ agent-building/
 | 05-09 | ★ **项目 1** ✅ | `react-agent/` | #5,7,8 | 手写 ReAct Agent，完成 GitHub repo 分析报告 |
 | 05-10 | ★ **项目 1 完成** ✅ | 📦 子模块 `react-agent/` | #14, 总复习1-16 | GitHub 仓库独立发布 + 简历段落 + 周复盘 |
 | 05-11 | ✅ **LangGraph** | `exercises/w2d1-langgraph/` | #24,27 | StateGraph、Checkpoint 持久化、reasoning_content 兼容 |
+| 05-12 | ✅ **HITL + Subgraph** | `exercises/w2d2-langgraph-hitl/` | #26 | interrupt_before 断点恢复、人工审批、工具参数校验子图 |
 
 ## 快速开始
 
@@ -74,6 +78,9 @@ uv run python exercises/w1d3-resilient-agent/agent.py
 uv run python exercises/w1d3-resilient-agent/agent.py --chaos  # 混沌模式 🌪️
 uv run python exercises/w2d1-langgraph/agent.py               # LangGraph StateGraph
 uv run python exercises/w2d1-langgraph/agent.py --memory      # + Checkpoint 记忆演示
+uv run python exercises/w2d2-langgraph-hitl/agent.py           # LangGraph HITL（自动模式）
+uv run python exercises/w2d2-langgraph-hitl/agent.py --hitl    # HITL 模式（交互式审批）
+uv run python exercises/w2d2-langgraph-hitl/agent.py --subgraph # 子图示例
 
 # 简历项目
 uv run python react-agent/agent.py                           # ★ ReAct Agent — GitHub 仓库分析
@@ -84,6 +91,7 @@ uv run jupyter notebook exercises/w1d2-mcp-server/agent.ipynb
 uv run jupyter notebook exercises/w1d3-resilient-agent/agent.ipynb
 uv run jupyter notebook react-agent/agent.ipynb              # ReAct Agent 交互式讲解
 uv run jupyter notebook exercises/w2d1-langgraph/agent.ipynb # LangGraph 交互式讲解
+uv run jupyter notebook exercises/w2d2-langgraph-hitl/agent.ipynb # HITL + Subgraph 交互式讲解
 ```
 
 ## 技术亮点（面试可说）
@@ -98,6 +106,8 @@ uv run jupyter notebook exercises/w2d1-langgraph/agent.ipynb # LangGraph 交互�
 | **结果校验层** | `w1d3/agent.py` — validate_*_result() | 防止垃圾数据污染 LLM 上下文 |
 | **GitHub ReAct Agent** | `react-agent/agent.py` — 完整 ReAct 循环 | 真实 API 集成 + 弹性三层 + 结构化报告生成 |
 | **LangGraph StateGraph** | `w2d1/agent.py` — build_graph() | 图结构控制流、Checkpoint 持久化、多用户会话隔离 |
+| **HITL 断点恢复** | `w2d2/agent.py` — interrupt_before | 零侵入实现人工审批，app.invoke(None) 从断点继续执行 |
+| **Subgraph 子图** | `w2d2/agent.py` — build_validation_subgraph() | 独立 StateGraph 封装横切关注点，支持独立暂停/恢复 |
 
 ## 技术栈
 
