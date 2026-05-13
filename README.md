@@ -39,8 +39,11 @@ agent-building/
 │   │   ├── agent.py                   #   StateGraph + SQLite Checkpoint（4 测试用例）
 │   │   └── agent.ipynb                #   交互式 Notebook（10 cells）
 │   └── w2d2-langgraph-hitl/           # Day 5: LangGraph HITL + Subgraph ✅
-│       ├── agent.py                   #   interrupt_before 断点 + 恢复 + 子图（3 模式）
-│       └── agent.ipynb                #   交互式 Notebook（11 cells）
+│   │   ├── agent.py                   #   interrupt_before 断点 + 恢复 + 子图（3 模式）
+│   │   └── agent.ipynb                #   交互式 Notebook（11 cells）
+│   └── w2d3-autogen/                  # Day 6: AutoGen Multi-Agent ✅
+│       ├── agent.py                   #   SelectorGroupChat + 工具调用 + 框架对比（4 模式）
+│       └── agent.ipynb                #   交互式 Notebook（10 cells）
 │
 ├── react-agent/                       # 📦 子模块 → TallMessiWu/react-agent
 │   ├── agent.py                       #   完整 ReAct Agent：GitHub API + 弹性三层 + 分析报告
@@ -60,6 +63,7 @@ agent-building/
 | 05-10 | ★ **项目 1 完成** ✅ | 📦 子模块 `react-agent/` | #14, 总复习1-16 | GitHub 仓库独立发布 + 简历段落 + 周复盘 |
 | 05-11 | ✅ **LangGraph** | `exercises/w2d1-langgraph/` | #24,27 | StateGraph、Checkpoint 持久化、reasoning_content 兼容 |
 | 05-12 | ✅ **HITL + Subgraph** | `exercises/w2d2-langgraph-hitl/` | #26 | interrupt_before 断点恢复、人工审批、工具参数校验子图 |
+| 05-13 | ✅ **AutoGen** | `exercises/w2d3-autogen/` | #25 | SelectorGroupChat 多 Agent 对话、LLM 选择发言人、三框架对比 |
 
 ## 快速开始
 
@@ -81,6 +85,10 @@ uv run python exercises/w2d1-langgraph/agent.py --memory      # + Checkpoint 记
 uv run python exercises/w2d2-langgraph-hitl/agent.py           # LangGraph HITL（自动模式）
 uv run python exercises/w2d2-langgraph-hitl/agent.py --hitl    # HITL 模式（交互式审批）
 uv run python exercises/w2d2-langgraph-hitl/agent.py --subgraph # 子图示例
+uv run python exercises/w2d3-autogen/agent.py                  # AutoGen 基础两 Agent 对话
+uv run python exercises/w2d3-autogen/agent.py --group          # SelectorGroupChat（Researcher+Writer+Critic）
+uv run python exercises/w2d3-autogen/agent.py --tool           # 多 Agent + 工具调用
+uv run python exercises/w2d3-autogen/agent.py --compare        # 三框架完整对比
 
 # 简历项目
 uv run python react-agent/agent.py                           # ★ ReAct Agent — GitHub 仓库分析
@@ -92,6 +100,7 @@ uv run jupyter notebook exercises/w1d3-resilient-agent/agent.ipynb
 uv run jupyter notebook react-agent/agent.ipynb              # ReAct Agent 交互式讲解
 uv run jupyter notebook exercises/w2d1-langgraph/agent.ipynb # LangGraph 交互式讲解
 uv run jupyter notebook exercises/w2d2-langgraph-hitl/agent.ipynb # HITL + Subgraph 交互式讲解
+uv run jupyter notebook exercises/w2d3-autogen/agent.ipynb      # AutoGen Multi-Agent 交互式讲解
 ```
 
 ## 技术亮点（面试可说）
@@ -108,6 +117,8 @@ uv run jupyter notebook exercises/w2d2-langgraph-hitl/agent.ipynb # HITL + Subgr
 | **LangGraph StateGraph** | `w2d1/agent.py` — build_graph() | 图结构控制流、Checkpoint 持久化、多用户会话隔离 |
 | **HITL 断点恢复** | `w2d2/agent.py` — interrupt_before | 零侵入实现人工审批，app.invoke(None) 从断点继续执行 |
 | **Subgraph 子图** | `w2d2/agent.py` — build_validation_subgraph() | 独立 StateGraph 封装横切关注点，支持独立暂停/恢复 |
+| **AutoGen SelectorGroupChat** | `w2d3/agent.py` — SelectorGroupChat | 对话抽象下的 Multi-Agent 协作，LLM 动态选择发言人，涌现式合作 |
+| **三框架对比** | `w2d3/agent.py` — show_framework_comparison() | LangGraph vs AutoGen vs CrewAI 完整维度对比表（面试题 25） |
 
 ## 技术栈
 
