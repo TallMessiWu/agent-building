@@ -28,8 +28,7 @@ agent-building/
 ├── README.md
 ├── CLAUDE.md
 ├── Agent_4周学习计划.xlsx
-├── Agent_4周学习计划.html          # 离线版学习看板
-├── docs/index.html                # → GitHub Pages 网站
+├── docs/index.html                # → GitHub Pages 学习看板
 │
 ├── exercises/                     # 每日编程练习（6 天）
 │   ├── w1d1-function-calling/     # Day 1: Function Calling

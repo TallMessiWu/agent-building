@@ -42,11 +42,14 @@ a:hover { text-decoration: underline; }
 .diff-1 { color: var(--accent2); }
 .diff-2 { color: var(--warn); }
 .diff-3 { color: var(--danger); }
+.done-badge { font-size: 11px; color: var(--accent2); background: rgba(63,185,80,0.1); padding: 2px 8px; border-radius: 10px; margin-left: 6px; }
 
 .timeline { position: relative; padding-left: 24px; }
 .timeline::before { content: ""; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: var(--border); }
 .timeline-item { position: relative; padding: 12px 16px; margin-bottom: 12px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
 .timeline-item::before { content: ""; position: absolute; left: -20px; top: 18px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); border: 2px solid var(--bg); }
+.timeline-item.completed { border-color: rgba(63,185,80,0.3); }
+.timeline-item.completed::before { background: var(--accent2); }
 .timeline-item .day-label { font-weight: 600; font-size: 14px; }
 .timeline-item .day-date { font-size: 12px; color: var(--text-secondary); }
 .timeline-item .day-content { margin-top: 6px; font-size: 13px; }
@@ -131,7 +134,7 @@ tr:hover { background: rgba(88,166,255,0.03); }
 <main class="main" id="main-content">
 
 <section id="overview" class="active">
-<div class="header"><h1>Agent 4周学习计划</h1><p>2026年5月4日 — 5月31日 · 为 Agent 岗位面试而准备</p></div>
+<div class="header"><h1>Agent 4周学习计划</h1><p>2026年5月4日 — 5月31日 · 已学习 10/28 天</p></div>
 <div class="stats">
   <div class="stat"><div class="stat-num">28</div><div class="stat-label">学习天数</div></div>
   <div class="stat"><div class="stat-num">56h</div><div class="stat-label">总学时</div></div>
@@ -140,77 +143,79 @@ tr:hover { background: rgba(88,166,255,0.03); }
   <div class="stat"><div class="stat-num">10</div><div class="stat-label">P0 必读</div></div>
   <div class="stat"><div class="stat-num">7</div><div class="stat-label">知识领域</div></div>
 </div>
-
 <div class="card">
-  <h3>4周路线图</h3>
-  <table>
-    <tr><th>周</th><th>日期</th><th>主题</th><th>核心产出</th><th>学时</th></tr>
+  <h3>学习进度</h3>
+  <div style="background:var(--border);border-radius:8px;height:8px;margin-bottom:8px">
+    <div style="background:var(--accent2);width:36%;height:100%;border-radius:8px"></div>
+  </div>
+  <p style="font-size:13px;color:var(--text-secondary)">10/28 天已完成 · 最新: 5月13日 AutoGen Multi-Agent</p>
+</div>
+
+<div class="card"><h3>4周路线图</h3><table>
+<tr><th>周</th><th>日期</th><th>主题</th><th>核心产出</th><th>学时</th></tr>
 <tr><td style="font-weight:700;color:var(--accent)">第1周</td><td>5/4 - 5/10</td><td>Agent 基础认知 + 手写 ReAct Agent</td><td>★ 小项目1: ReAct Agent (150-300行)</td><td>13.5h</td></tr>
 <tr><td style="font-weight:700;color:var(--accent)">第2周</td><td>5/11 - 5/17</td><td>LangGraph / AutoGen / CrewAI + RAG 记忆</td><td>★ 小项目2: 长期记忆研究助手</td><td>13.5h</td></tr>
 <tr><td style="font-weight:700;color:var(--accent)">第3周</td><td>5/18 - 5/24</td><td>Reflexion / Plan-Execute / Multi-Agent + 评估</td><td>★ 小项目3: Multi-Agent 协作写作</td><td>13.5h</td></tr>
 <tr><td style="font-weight:700;color:var(--accent)">第4周</td><td>5/25 - 5/31</td><td>性能成本精讲 + 八股冲刺 + 模拟面试</td><td>★ 简历定稿 + 面试 Ready</td><td>16.5h</td></tr>
 </table></div>
-<div class="card">
-<h3>快速导航</h3>
-<div class="grid-2">
+<div class="card"><h3>快速导航</h3><div class="grid-2">
 <div class="highlight"><strong>第1周</strong> (5/4 - 5/10)<br>Agent 基础认知 + 手写 ReAct Agent<br><a href="#week1" class="nav-link-detail" data-section="week1">查看详细计划 →</a></div>
 <div class="highlight"><strong>第2周</strong> (5/11 - 5/17)<br>LangGraph / AutoGen / CrewAI + RAG 记忆<br><a href="#week2" class="nav-link-detail" data-section="week2">查看详细计划 →</a></div>
 <div class="highlight"><strong>第3周</strong> (5/18 - 5/24)<br>Reflexion / Plan-Execute / Multi-Agent + 评估<br><a href="#week3" class="nav-link-detail" data-section="week3">查看详细计划 →</a></div>
 <div class="highlight"><strong>第4周</strong> (5/25 - 5/31)<br>性能成本精讲 + 八股冲刺 + 模拟面试<br><a href="#week4" class="nav-link-detail" data-section="week4">查看详细计划 →</a></div>
 </div></div></section>
 <section id="week1"><div class="section-title">第1周 · Agent 基础认知 + 手写 ReAct Agent</div>
-<div class="section-subtitle">5/4 - 5/10 · 总学时 13.5h</div>
-<div class="timeline">
-<div class="timeline-item">
-<div class="day-label">周一 <span class="day-date">2026-05-04</span> · 1.5h <span class="diff-1">简单</span></div>
+<div class="section-subtitle">5/4 - 5/10 · 总学时 13.5h</div><div class="timeline">
+<div class="timeline-item completed">
+<div class="day-label">周一 <span class="day-date">2026-05-04</span> · 1.5h <span class="diff-1">简单</span> <span class="done-badge">✅ 已完成</span></div>
 <div class="day-content"><strong>学:</strong> Anthropic《Building Effective Agents》全文 + 笔记</div>
 <div class="day-content"><strong>练:</strong> 无(纯阅读)</div>
 <div class="day-content"><strong>背:</strong> ★ 题 1, 2, 9(Agent 概念 + 5 种 workflow 模式)— 当天读完即背,趁热打铁</div>
 <div class="day-content"><strong>产出:</strong> 笔记 200-400 字</div>
 <div class="day-links"> <a href="https://anthropic.com/research/building-effective-agents" target="_blank" rel="noopener">[anthropic.com/research/building-effective-agents]</a></div>
 </div>
-<div class="timeline-item">
-<div class="day-label">周二 <span class="day-date">2026-05-05</span> · 1.5h <span class="diff-1">简单</span></div>
+<div class="timeline-item completed">
+<div class="day-label">周二 <span class="day-date">2026-05-05</span> · 1.5h <span class="diff-1">简单</span> <span class="done-badge">✅ 已完成</span></div>
 <div class="day-content"><strong>学:</strong> ReAct 论文 + Lilian Weng《LLM Powered Autonomous Agents》前半</div>
 <div class="day-content"><strong>练:</strong> 无</div>
 <div class="day-content"><strong>背:</strong> ★ 题 3, 4, 6(ReAct + Plan-Execute + 核心组件)</div>
 <div class="day-content"><strong>产出:</strong> 笔记 + 自画 agent 架构图</div>
 <div class="day-links"> <a href="https://lilianweng.github.io/posts/2023-06-23-agent/" target="_blank" rel="noopener">[lilianweng.github.io/posts/2023-06-23-agent/]</a></div>
 </div>
-<div class="timeline-item">
-<div class="day-label">周三 <span class="day-date">2026-05-06</span> · 1.5h <span class="diff-2">中等</span></div>
+<div class="timeline-item completed">
+<div class="day-label">周三 <span class="day-date">2026-05-06</span> · 1.5h <span class="diff-2">中等</span> <span class="done-badge">✅ 已完成</span></div>
 <div class="day-content"><strong>学:</strong> OpenAI/Anthropic function calling 文档</div>
 <div class="day-content"><strong>练:</strong> 用 Anthropic API 写一个 2 工具(查天气+算数)的 agent,纯手写不用框架</div>
 <div class="day-content"><strong>背:</strong> ★ 题 10, 11(Function Calling 底层 + Tool schema 设计)— 配合实战记最深</div>
 <div class="day-content"><strong>产出:</strong> ✓</div>
 <div class="day-links"> Anthropic Tool Use 文档</div>
 </div>
-<div class="timeline-item">
-<div class="day-label">周四 <span class="day-date">2026-05-07</span> · 1.5h <span class="diff-2">中等</span></div>
+<div class="timeline-item completed">
+<div class="day-label">周四 <span class="day-date">2026-05-07</span> · 1.5h <span class="diff-2">中等</span> <span class="done-badge">✅ 已完成</span></div>
 <div class="day-content"><strong>学:</strong> MCP 协议规范文档</div>
 <div class="day-content"><strong>练:</strong> 把昨天的 agent 改造成 MCP server</div>
 <div class="day-content"><strong>背:</strong> ★ 题 12, 13(MCP 协议 + 与 Function Calling 关系)</div>
 <div class="day-content"><strong>产出:</strong> MCP server 代码</div>
 <div class="day-links"> <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">[modelcontextprotocol.io]</a></div>
 </div>
-<div class="timeline-item">
-<div class="day-label">周五 <span class="day-date">2026-05-08</span> · 1.5h <span class="diff-2">中等</span></div>
+<div class="timeline-item completed">
+<div class="day-label">周五 <span class="day-date">2026-05-08</span> · 1.5h <span class="diff-2">中等</span> <span class="done-badge">✅ 已完成</span></div>
 <div class="day-content"><strong>学:</strong> Tool schema 设计 + 错误处理最佳实践</div>
 <div class="day-content"><strong>练:</strong> 给 agent 加错误重试 + 工具结果验证</div>
 <div class="day-content"><strong>背:</strong> ★ 题 15, 16(工具失败处理 + 工具 vs prompt 取舍)</div>
 <div class="day-content"><strong>产出:</strong> 更新后代码</div>
 <div class="day-links"> Anthropic《Writing Effective Tools》</div>
 </div>
-<div class="timeline-item">
-<div class="day-label">周六 <span class="day-date">2026-05-09</span> · 3h <span class="diff-3">困难</span></div>
+<div class="timeline-item completed">
+<div class="day-label">周六 <span class="day-date">2026-05-09</span> · 3h <span class="diff-3">困难</span> <span class="done-badge">✅ 已完成</span></div>
 <div class="day-content"><strong>学:</strong> ★ 小项目 1:手写 ReAct agent(150-300 行)</div>
 <div class="day-content"><strong>练:</strong> 完成真实任务(GitHub repo 分析报告)</div>
 <div class="day-content"><strong>背:</strong> ★ 题 5, 7, 8(Reflexion + Multi-agent + 死循环处理)+ 复习题 1-9 一遍</div>
 <div class="day-content"><strong>产出:</strong> GitHub repo 雏形</div>
 <div class="day-links"> Anthropic Tool Use Cookbook</div>
 </div>
-<div class="timeline-item">
-<div class="day-label">周日 <span class="day-date">2026-05-10</span> · 3h <span class="diff-3">困难</span></div>
+<div class="timeline-item completed">
+<div class="day-label">周日 <span class="day-date">2026-05-10</span> · 3h <span class="diff-3">困难</span> <span class="done-badge">✅ 已完成</span></div>
 <div class="day-content"><strong>学:</strong> 完善小项目 1 + 写 README + 推 GitHub;读 Lilian Weng 后半</div>
 <div class="day-content"><strong>练:</strong> 完成项目;写一段简历版描述</div>
 <div class="day-content"><strong>背:</strong> ★ 题 14(大数据返回处理)+ 全周 Agent 概念题 + Tool/MCP 题(1-16)总复习</div>
@@ -219,26 +224,25 @@ tr:hover { background: rgba(88,166,255,0.03); }
 </div>
 </div></section>
 <section id="week2"><div class="section-title">第2周 · LangGraph / AutoGen / CrewAI + RAG 记忆</div>
-<div class="section-subtitle">5/11 - 5/17 · 总学时 13.5h</div>
-<div class="timeline">
-<div class="timeline-item">
-<div class="day-label">周一 <span class="day-date">2026-05-11</span> · 1.5h <span class="diff-2">中等</span></div>
+<div class="section-subtitle">5/11 - 5/17 · 总学时 13.5h</div><div class="timeline">
+<div class="timeline-item completed">
+<div class="day-label">周一 <span class="day-date">2026-05-11</span> · 1.5h <span class="diff-2">中等</span> <span class="done-badge">✅ 已完成</span></div>
 <div class="day-content"><strong>学:</strong> LangGraph 教程前半:State / Node / Edge / Conditional Edge</div>
 <div class="day-content"><strong>练:</strong> 用 LangGraph 重写第 1 周的 ReAct agent</div>
 <div class="day-content"><strong>背:</strong> ★ 题 24, 27(LangGraph 与 LangChain 关系 + State/Node/Edge)</div>
 <div class="day-content"><strong>产出:</strong> LangGraph 版 agent</div>
 <div class="day-links"> <a href="https://langchain-ai.github.io/langgraph" target="_blank" rel="noopener">[langchain-ai.github.io/langgraph]</a></div>
 </div>
-<div class="timeline-item">
-<div class="day-label">周二 <span class="day-date">2026-05-12</span> · 1.5h <span class="diff-2">中等</span></div>
+<div class="timeline-item completed">
+<div class="day-label">周二 <span class="day-date">2026-05-12</span> · 1.5h <span class="diff-2">中等</span> <span class="done-badge">✅ 已完成</span></div>
 <div class="day-content"><strong>学:</strong> LangGraph 教程后半:Subgraph / HITL / Checkpointing</div>
 <div class="day-content"><strong>练:</strong> 给 agent 加 checkpoint 和断点恢复</div>
 <div class="day-content"><strong>背:</strong> ★ 题 26(为什么手写不用框架)— 反向思考,加深理解</div>
 <div class="day-content"><strong>产出:</strong> 支持断点恢复的 agent</div>
 <div class="day-links"> LangGraph 文档</div>
 </div>
-<div class="timeline-item">
-<div class="day-label">周三 <span class="day-date">2026-05-13</span> · 1.5h <span class="diff-2">中等</span></div>
+<div class="timeline-item completed">
+<div class="day-label">周三 <span class="day-date">2026-05-13</span> · 1.5h <span class="diff-2">中等</span> <span class="done-badge">✅ 已完成</span></div>
 <div class="day-content"><strong>学:</strong> AutoGen 文档(focus: multi-agent conversation)</div>
 <div class="day-content"><strong>练:</strong> 跑通 AutoGen 官方 quickstart</div>
 <div class="day-content"><strong>背:</strong> ★ 题 25(三框架选择)— 上完课立刻背</div>
@@ -279,8 +283,7 @@ tr:hover { background: rgba(88,166,255,0.03); }
 </div>
 </div></section>
 <section id="week3"><div class="section-title">第3周 · Reflexion / Plan-Execute / Multi-Agent + 评估</div>
-<div class="section-subtitle">5/18 - 5/24 · 总学时 13.5h</div>
-<div class="timeline">
+<div class="section-subtitle">5/18 - 5/24 · 总学时 13.5h</div><div class="timeline">
 <div class="timeline-item">
 <div class="day-label">周一 <span class="day-date">2026-05-18</span> · 1.5h <span class="diff-2">中等</span></div>
 <div class="day-content"><strong>学:</strong> Reflexion 论文 + Self-Refine</div>
@@ -339,8 +342,7 @@ tr:hover { background: rgba(88,166,255,0.03); }
 </div>
 </div></section>
 <section id="week4"><div class="section-title">第4周 · 性能成本精讲 + 八股冲刺 + 模拟面试</div>
-<div class="section-subtitle">5/25 - 5/31 · 总学时 16.5h</div>
-<div class="timeline">
+<div class="section-subtitle">5/25 - 5/31 · 总学时 16.5h</div><div class="timeline">
 <div class="timeline-item">
 <div class="day-label">周一 <span class="day-date">2026-05-25</span> · 1.5h <span class="diff-3">困难</span></div>
 <div class="day-content"><strong>学:</strong> 性能成本主题深度梳理(你的优势区); 选读:DSPy 论文(理解 prompt 即参数优化思想,30min)</div>
@@ -979,7 +981,6 @@ tr:hover { background: rgba(88,166,255,0.03); }
 </section>
 </main></div>
 <script>
-// Navigation
 document.querySelectorAll(".nav-link, .nav-link-detail").forEach(function(link) {
   link.addEventListener("click", function(e) {
     e.preventDefault();
@@ -994,7 +995,6 @@ document.querySelectorAll(".nav-link, .nav-link-detail").forEach(function(link) 
   });
 });
 
-// Collapse
 document.querySelectorAll(".collapse-header").forEach(function(header) {
   header.addEventListener("click", function() {
     this.classList.toggle("open");
@@ -1002,7 +1002,6 @@ document.querySelectorAll(".collapse-header").forEach(function(header) {
   });
 });
 
-// Category filter for questions
 document.querySelectorAll(".cat-filter").forEach(function(filter) {
   filter.addEventListener("click", function() {
     document.querySelectorAll(".cat-filter").forEach(function(f) { f.classList.remove("active"); });
@@ -1019,7 +1018,6 @@ document.querySelectorAll(".cat-filter").forEach(function(filter) {
   });
 });
 
-// Search
 document.getElementById("qsearch").addEventListener("input", function() {
   var q = this.value.toLowerCase();
   document.querySelectorAll(".q-item").forEach(function(item) {
@@ -1031,9 +1029,7 @@ document.getElementById("qsearch").addEventListener("input", function() {
       item.classList.remove("open");
     }
   });
-  document.querySelectorAll(".q-cat-header").forEach(function(h) {
-    h.style.display = q ? "" : "";
-  });
+  document.querySelectorAll(".q-cat-header").forEach(function(h) { h.style.display = q ? "" : ""; });
   if (q) {
     document.querySelectorAll(".cat-filter").forEach(function(f) { f.classList.remove("active"); });
     var allFilter = document.querySelector('.cat-filter[data-cat="all"]');

@@ -45,12 +45,12 @@ uv run jupyter notebook exercises/w1d3-resilient-agent/agent.ipynb
 
 ## ⚠️ 每日提交前必做
 
-**每天学习结束、提交代码前，更新 `README.md`**（进度以 README 为准，CLAUDE.md 不重复维护进度表）：
+**每天学习结束、提交代码前，更新学习看板网站**（进度以 `docs/index.html` 为准）：
 
-- 在"学习时间线"表格中标记当天完成状态
-- 如有新文件，在"目录结构"中体现
+- 修改 `gen_html_v2.py` 中日期范围，将当天的"完成"列设值 `✅`，重新生成 HTML
+- 如新增练习目录，在生成脚本的目录结构部分体现
 
-> Claude 启动时自动读取 README.md，立刻知道当前进度和昨天产出的文件位置。
+> 网站即 README — GitHub Pages 自动部署，README.md 保持精简，指向网站即可。
 
 ---
 
@@ -69,6 +69,8 @@ uv run jupyter notebook exercises/w1d3-resilient-agent/agent.ipynb
 ## 文件说明
 
 ```
+docs/
+└── index.html                          # GitHub Pages 学习看板（每日更新进度）
 exercises/
 ├── w1d1-function-calling/             # Day 1: 纯 Function Calling
 │   ├── agent.py                       #   完整脚本，包含 6 个测试用例
@@ -76,9 +78,12 @@ exercises/
 ├── w1d2-mcp-server/                   # Day 2: MCP 协议改造
 │   ├── agent.py                       #   MCP Server + Client，6 个测试用例
 │   └── agent.ipynb                    #   交互式 Notebook
-└── w1d3-resilient-agent/              # Day 3: 弹性 Agent
-    ├── agent.py                       #   重试/熔断/降级 + 混沌模式
-    └── agent.ipynb                    #   交互式 Notebook（45 cells）
+├── w1d3-resilient-agent/              # Day 3: 弹性 Agent
+│   ├── agent.py                       #   重试/熔断/降级 + 混沌模式
+│   └── agent.ipynb                    #   交互式 Notebook（45 cells）
+├── w2d1-langgraph/                    # Day 4: LangGraph StateGraph
+├── w2d2-langgraph-hitl/               # Day 5: LangGraph HITL + Subgraph
+└── w2d3-autogen/                      # Day 6: AutoGen Multi-Agent
 
 react-agent/                           # ★ 项目 1: 手写 ReAct Agent（05-09~10）
 research-assistant/                    # ★ 项目 2: 长期记忆研究助手（05-16~17）
