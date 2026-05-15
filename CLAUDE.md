@@ -32,11 +32,17 @@ uv run python exercises/w1d2-mcp-server/agent.py
 uv run python exercises/w1d2-mcp-server/agent.py serve    # MCP Server 独立模式
 uv run python exercises/w1d3-resilient-agent/agent.py
 uv run python exercises/w1d3-resilient-agent/agent.py --chaos  # 混沌模式
+uv run python exercises/w2d1-langgraph/agent.py
+uv run python exercises/w2d2-langgraph-hitl/agent.py
+uv run python exercises/w2d3-autogen/agent.py
+uv run python exercises/w2d4-crewai/agent.py
+uv run python exercises/w2d5-rag-agent/agent.py --self-test
 
 # 启动 Jupyter Notebook
 uv run jupyter notebook exercises/w1d1-function-calling/agent.ipynb
 uv run jupyter notebook exercises/w1d2-mcp-server/agent.ipynb
 uv run jupyter notebook exercises/w1d3-resilient-agent/agent.ipynb
+uv run jupyter notebook exercises/w2d5-rag-agent/agent.ipynb
 ```
 
 ## 提交规范
@@ -83,7 +89,9 @@ exercises/
 │   └── agent.ipynb                    #   交互式 Notebook（45 cells）
 ├── w2d1-langgraph/                    # Day 4: LangGraph StateGraph
 ├── w2d2-langgraph-hitl/               # Day 5: LangGraph HITL + Subgraph
-└── w2d3-autogen/                      # Day 6: AutoGen Multi-Agent
+├── w2d3-autogen/                      # Day 6: AutoGen Multi-Agent
+├── w2d4-crewai/                       # Day 7: CrewAI Role-based Agent
+└── w2d5-rag-agent/                    # Day 8: Chroma RAG + LangGraph
 
 react-agent/                           # ★ 项目 1: 手写 ReAct Agent（05-09~10）
 research-assistant/                    # ★ 项目 2: 长期记忆研究助手（05-16~17）

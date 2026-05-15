@@ -29,3 +29,6 @@ Thumbs.db
 
 # 数据库文件
 *.db
+
+# 本地向量索引
+chroma/
