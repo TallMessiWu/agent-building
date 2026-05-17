@@ -5,7 +5,7 @@
 解决纯 LLM"对话结束即遗忘"的痛点。
 
 架构栈（自底向上）：
-  ① 工具层     — 5 工具：search_web / fetch_url / read_pdf / save_memory / search_memory
+  ① 工具层     — 6 工具：search_web / fetch_url / read_pdf / save_memory / search_memory / build_context_pack
   ② 检索层     — Chroma 向量库 + 本地 hash embedding（离线可跑）
                   hybrid retrieval（向量距离 + lexical 词项重排）
   ③ 短期记忆   — LangGraph state + SqliteSaver 检查点（thread 内断点恢复）
@@ -81,6 +81,8 @@ HTTP_HEADERS = {
 MAX_FETCH_CHARS = 4000      # 抓网页正文截断长度（控 context 爆炸）
 MAX_PDF_CHARS = 6000        # 读 PDF 正文截断长度
 MAX_MEMORY_CHARS = 1500     # 单条长期记忆最大写入长度
+MAX_CONTEXT_PACK_CHARS = 2400
+CONTEXT_SNIPPET_CHARS = 360
 
 
 # ╔══════════════════════════════════════════════════════════════════╗
@@ -135,6 +137,17 @@ def _lexical_score(query: str, text: str) -> float:
     return min(1.0, score + 0.15 * phrase_hits)
 
 
+def _truncate_middle(text: str, max_chars: int) -> str:
+    """保留首尾证据，降低关键信息被截在中间的概率。"""
+    if len(text) <= max_chars:
+        return text
+    if max_chars < 80:
+        return text[:max_chars]
+    head = max_chars // 2
+    tail = max_chars - head - 8
+    return f"{text[:head]} ... {text[-tail:]}"
+
+
 def get_collection(reset: bool = False):
     """获取（或清空重建）长期记忆 collection。PersistentClient 落盘。"""
     client = chromadb.PersistentClient(
@@ -153,8 +166,48 @@ def get_collection(reset: bool = False):
     )
 
 
+def rank_memory_matches(collection, query: str, top_k: int = 4) -> list[dict]:
+    """Chroma 候选召回 + lexical rerank，供 search_memory/context pack 复用。"""
+    top_k = max(1, min(int(top_k), 8))
+    count = collection.count()
+    if count == 0:
+        return []
+
+    n = min(count, max(top_k * 3, top_k))
+    raw = collection.query(query_texts=[query], n_results=n)
+    docs = raw.get("documents", [[]])[0]
+    metas = raw.get("metadatas", [[]])[0]
+    dists = raw.get("distances", [[]])[0]
+    ids = raw.get("ids", [[]])[0]
+
+    scored = []
+    for doc_id, text, meta, dist in zip(ids, docs, metas, dists):
+        meta = meta or {}
+        lexical = _lexical_score(query, f"{meta.get('title', '')} {text}")
+        vector = max(0.0, 1.0 - float(dist))
+        score = 0.6 * lexical + 0.4 * vector
+        scored.append((score, lexical, vector, doc_id, text, meta, dist))
+    scored.sort(key=lambda x: x[0], reverse=True)
+
+    matches = []
+    for rank, (score, lex, vec, doc_id, text, meta, dist) in enumerate(scored[:top_k], 1):
+        matches.append({
+            "rank": rank,
+            "memory_id": doc_id,
+            "title": meta.get("title", ""),
+            "tags": meta.get("tags", ""),
+            "saved_at": meta.get("saved_at", ""),
+            "score": round(score, 4),
+            "lexical": round(lex, 4),
+            "vector": round(vec, 4),
+            "distance": round(float(dist), 4),
+            "content": text,
+        })
+    return matches
+
+
 # ╔══════════════════════════════════════════════════════════════════╗
-# ║                第三部分：5 个研究工具                              ║
+# ║                第三部分：6 个研究工具                              ║
 # ╚══════════════════════════════════════════════════════════════════╝
 
 
@@ -173,7 +226,7 @@ def _clean_html(html: str) -> str:
 
 
 def make_tools(collection):
-    """生产 5 个 LangChain 工具，闭包持有 collection 引用。"""
+    """生产 6 个 LangChain 工具，闭包持有 collection 引用。"""
 
     @tool
     def search_web(query: str, max_results: int = 5) -> str:
@@ -322,37 +375,88 @@ def make_tools(collection):
         if count == 0:
             return json.dumps({"query": query, "matches": [], "note": "长期记忆为空"}, ensure_ascii=False)
 
-        n = min(count, max(top_k * 3, top_k))
-        raw = collection.query(query_texts=[query], n_results=n)
-        docs = raw.get("documents", [[]])[0]
-        metas = raw.get("metadatas", [[]])[0]
-        dists = raw.get("distances", [[]])[0]
-        ids = raw.get("ids", [[]])[0]
-
-        scored = []
-        for doc_id, text, meta, dist in zip(ids, docs, metas, dists):
-            lexical = _lexical_score(query, f"{meta.get('title', '')} {text}")
-            vector = max(0.0, 1.0 - float(dist))
-            score = 0.6 * lexical + 0.4 * vector
-            scored.append((score, lexical, vector, doc_id, text, meta, dist))
-        scored.sort(key=lambda x: x[0], reverse=True)
-
-        matches = []
-        for rank, (score, lex, vec, doc_id, text, meta, dist) in enumerate(scored[:top_k], 1):
-            matches.append({
-                "rank": rank,
-                "memory_id": doc_id,
-                "title": meta.get("title", ""),
-                "tags": meta.get("tags", ""),
-                "saved_at": meta.get("saved_at", ""),
-                "score": round(score, 4),
-                "lexical": round(lex, 4),
-                "vector": round(vec, 4),
-                "content": text,
-            })
+        matches = rank_memory_matches(collection, query, top_k)
         return json.dumps({"query": query, "matches": matches}, ensure_ascii=False)
 
-    return [search_web, fetch_url, read_pdf, save_memory, search_memory]
+    @tool
+    def build_context_pack(query: str, top_k: int = 5, char_budget: int = MAX_CONTEXT_PACK_CHARS) -> str:
+        """把长期记忆召回结果压成可直接塞进 prompt 的上下文包。
+
+        设计点：
+        - 先 hybrid rerank，避免只靠向量相似度。
+        - 证据前置，同时把次要证据倒序放到尾部做 anchor，缓解 Lost in the Middle。
+        - 每条证据保留首尾，减少长片段截断时丢掉结论或来源。
+
+        Args:
+            query: 当前研究问题
+            top_k: 使用的长期记忆条数，1-8，默认 5
+            char_budget: 上下文包最大字符数，800-5000，默认 2400
+        """
+        top_k = max(1, min(int(top_k), 8))
+        char_budget = max(800, min(int(char_budget), 5000))
+        matches = rank_memory_matches(collection, query, top_k)
+        if not matches:
+            return json.dumps(
+                {"query": query, "context_pack": "", "citations": [], "note": "长期记忆为空"},
+                ensure_ascii=False,
+            )
+
+        per_item_budget = max(160, min(CONTEXT_SNIPPET_CHARS, char_budget // max(len(matches), 1)))
+        snippets = []
+        for m in matches:
+            snippets.append({
+                "rank": m["rank"],
+                "memory_id": m["memory_id"],
+                "title": m["title"],
+                "score": m["score"],
+                "snippet": _truncate_middle(m["content"], per_item_budget),
+            })
+
+        split = max(1, (len(snippets) + 1) // 2)
+        front = snippets[:split]
+        tail = list(reversed(snippets[split:]))
+
+        lines = [
+            f"任务问题: {query}",
+            "上下文策略: 最高置信证据放在开头；补充证据倒序放在末尾，避免关键信息落在长上下文中部。",
+            "",
+            "【前置证据】",
+        ]
+        for item in front:
+            lines.append(
+                f"[M{item['rank']}] {item['title']} "
+                f"(score={item['score']}, id={item['memory_id']})\n{item['snippet']}"
+            )
+        if tail:
+            lines.extend(["", "【尾部锚点】"])
+            for item in tail:
+                lines.append(
+                    f"[M{item['rank']}] {item['title']} "
+                    f"(score={item['score']}, id={item['memory_id']})\n{item['snippet']}"
+                )
+
+        context_pack = _truncate_middle("\n\n".join(lines), char_budget)
+        citations = [
+            {
+                "memory_id": item["memory_id"],
+                "title": item["title"],
+                "rank": item["rank"],
+                "score": item["score"],
+            }
+            for item in snippets
+        ]
+        return json.dumps(
+            {
+                "query": query,
+                "strategy": "front-load top evidence + tail anchors",
+                "char_budget": char_budget,
+                "context_pack": context_pack,
+                "citations": citations,
+            },
+            ensure_ascii=False,
+        )
+
+    return [search_web, fetch_url, read_pdf, save_memory, search_memory, build_context_pack]
 
 
 # ╔══════════════════════════════════════════════════════════════════╗
@@ -361,19 +465,21 @@ def make_tools(collection):
 
 SYSTEM_PROMPT = """你是一个长期记忆研究助手，工作模式是 ReAct + 持久化记忆。
 
-你拥有 5 个工具：
+你拥有 6 个工具：
   search_web    — DuckDuckGo 网页搜索
   fetch_url     — 抓取指定 URL 正文
   read_pdf      — 读取本地 PDF
   save_memory   — 把研究片段写入长期记忆库（跨会话可召回）
   search_memory — 从长期记忆库召回过往研究
+  build_context_pack — 把召回结果压缩成抗 Lost in the Middle 的上下文包
 
 工作准则：
 1. 接到研究任务时，先调用 search_memory 看是否已有相关沉淀，避免重复劳动。
 2. 收集到新的关键信息后，主动调用 save_memory 沉淀下来，标题精炼、tags 清晰。
 3. 引用网页或 PDF 内容时务必带上来源链接/路径，便于校验。
-4. 控 token：fetch_url / read_pdf 返回值较大，只摘录与任务最相关的句子。
-5. 最终答复用中文，结构清晰，末尾列出"已沉淀记忆"和"参考来源"两小节。
+4. 需要综合多条长期记忆时，优先调用 build_context_pack，再基于 context_pack 作答。
+5. 控 token：fetch_url / read_pdf 返回值较大，只摘录与任务最相关的句子。
+6. 最终答复用中文，结构清晰，末尾列出"已沉淀记忆"和"参考来源"两小节。
 """
 
 
@@ -513,7 +619,7 @@ def chat(app, user_input: str, thread_id: str = "research-demo") -> str:
 
 
 def run_self_test():
-    """离线自测：验证 5 个工具骨架（save / search / read_pdf / fetch / search_web） 不依赖 LLM。"""
+    """离线自测：验证 6 个工具骨架，不依赖 LLM。"""
     print("=" * 72)
     print(" Research Assistant 离线自测")
     print("=" * 72)
@@ -522,7 +628,7 @@ def run_self_test():
     tools_by_name = {t.name: t for t in tools_list}
 
     # ① save_memory
-    print("\n[1] save_memory — 写入三条预置研究片段")
+    print("\n[1] save_memory — 写入四条预置研究片段")
     samples = [
         {
             "title": "RAG pipeline 速记",
@@ -543,6 +649,12 @@ def run_self_test():
                        "RAG 不能无脑塞 chunk，应控 top-k + reranker 把关键证据放前后。",
             "tags": "context,rag",
         },
+        {
+            "title": "Context engineering",
+            "content": "有效的 agent 上下文工程不是把所有材料塞进 prompt，"
+                       "而是把任务、工具结果、长期记忆和引用证据组织成可验证的最小上下文包。",
+            "tags": "context,agent",
+        },
     ]
     for s in samples:
         print("  ", tools_by_name["save_memory"].invoke(s))
@@ -556,8 +668,19 @@ def run_self_test():
             print(f"    [{m['rank']}] {m['title']}  score={m['score']}  "
                   f"(lex={m['lexical']}, vec={m['vector']})")
 
-    # ③ read_pdf — 生成一个临时 PDF 跑通链路
-    print("\n[3] read_pdf — 临时构造 PDF 验证读取")
+    # ③ build_context_pack
+    print("\n[3] build_context_pack — 生成抗 Lost in the Middle 的上下文包")
+    payload = json.loads(tools_by_name["build_context_pack"].invoke({
+        "query": "如何为长期记忆 agent 组织上下文",
+        "top_k": 3,
+        "char_budget": 1200,
+    }))
+    print("  strategy:", payload["strategy"])
+    print("  citations:", [c["title"] for c in payload["citations"]])
+    print("  preview:", payload["context_pack"][:280].replace("\n", " "))
+
+    # ④ read_pdf — 生成一个临时 PDF 跑通链路
+    print("\n[4] read_pdf — 临时构造 PDF 验证读取")
     try:
         from pypdf import PdfWriter
         tmp_pdf = BASE_DIR / "_self_test.pdf"
@@ -569,8 +692,8 @@ def run_self_test():
     except Exception as exc:
         print(f"  跳过 PDF 写入（{exc}），仅验证错误分支")
 
-    # ④ fetch_url & search_web — 仅在有网络时尝试，失败 graceful
-    print("\n[4] search_web / fetch_url — 网络可达时联通")
+    # ⑤ fetch_url & search_web — 仅在有网络时尝试，失败 graceful
+    print("\n[5] search_web / fetch_url — 网络可达时联通")
     out = tools_by_name["search_web"].invoke({"query": "anthropic building effective agents", "max_results": 2})
     payload = json.loads(out)
     if "error" in payload:
@@ -614,7 +737,8 @@ def run_agent_demo():
         # Session B：新 thread，验证能从长期记忆召回
         chat(app,
              "上次研究过 LangGraph 的长期记忆方案，能复述一下吗？"
-             "请先 search_memory 看看有没有相关沉淀。",
+             "请先 search_memory 看看有没有相关沉淀；如果有多条结果，"
+             "再用 build_context_pack 组织上下文后回答。",
              thread_id="session-B")
 
 
