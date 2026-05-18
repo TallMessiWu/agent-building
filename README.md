@@ -18,6 +18,7 @@ uv run python exercises/w2d2-langgraph-hitl/agent.py
 uv run python exercises/w2d3-autogen/agent.py
 uv run python exercises/w2d4-crewai/agent.py
 uv run python exercises/w2d5-rag-agent/agent.py --self-test
+uv run python exercises/w3d1-reflexion/agent.py --self-test
 
 # 交互式 Notebook
 uv run jupyter notebook exercises/w1d1-function-calling/agent.ipynb
@@ -32,7 +33,7 @@ agent-building/
 ├── Agent_4周学习计划.xlsx
 ├── docs/index.html                # → GitHub Pages 学习看板
 │
-├── exercises/                     # 每日编程练习（8 天）
+├── exercises/                     # 每日编程练习（9 天）
 │   ├── w1d1-function-calling/     # Day 1: Function Calling
 │   ├── w1d2-mcp-server/           # Day 2: MCP 协议
 │   ├── w1d3-resilient-agent/      # Day 3: 重试/熔断/降级
@@ -40,7 +41,8 @@ agent-building/
 │   ├── w2d2-langgraph-hitl/       # Day 5: HITL + Subgraph
 │   ├── w2d3-autogen/              # Day 6: AutoGen Multi-Agent
 │   ├── w2d4-crewai/               # Day 7: CrewAI Role-based Agent
-│   └── w2d5-rag-agent/            # Day 8: Chroma RAG + LangGraph
+│   ├── w2d5-rag-agent/            # Day 8: Chroma RAG + LangGraph
+│   └── w3d1-reflexion/            # Day 9: Reflexion + Self-Refine
 │
 ├── react-agent/                   # 📦 项目 1: 手写 ReAct Agent
 ├── research-assistant/            # 📦 项目 2: 长期记忆研究助手
@@ -63,6 +65,7 @@ agent-building/
 | **AutoGen Multi-Agent** | `w2d3/agent.py` | LLM 动态选择发言人 + 三框架完整对比 |
 | **CrewAI Role-based** | `w2d4/agent.py` | role/goal/backstory + Task 顺序协作 |
 | **Chroma RAG** | `w2d5/agent.py` | 本地向量库 + 混合检索 + LangGraph 工具调用 |
+| **Reflexion** | `w3d1/agent.py` | generator/critic/refiner 闭环 + 反思记忆 |
 
 ## 技术栈
 
