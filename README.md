@@ -46,9 +46,9 @@ agent-building/
 │   ├── w3d1-reflexion/            # Day 9: Reflexion + Self-Refine
 │   └── w3d2-plan-execute/         # Day 10: Plan-and-Execute + DAG
 │
-├── react-agent/                   # 📦 项目 1: 手写 ReAct Agent
-├── research-assistant/            # 📦 项目 2: 长期记忆研究助手
-└── multi-agent-collab/            # 📦 项目 3: Multi-Agent 协作写作
+├── react-agent/                          # 📦 项目 1: 手写 ReAct Agent (submodule)
+├── long-term-memory-research-agent/      # 📦 项目 2: 长期记忆研究助手 (submodule)
+└── multi-agent-collab/                   # 📦 项目 3: Multi-Agent 协作写作
 ```
 
 > 📅 完整学习时间线、41 道八股题库、必读清单、项目追踪、模拟面试反馈 → **[网站版学习看板](https://tallmessiwu.github.io/agent-building/)**

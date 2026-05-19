@@ -1,3 +1,6 @@
 [submodule "react-agent"]
 	path = react-agent
 	url = https://github.com/TallMessiWu/react-agent.git
+[submodule "long-term-memory-research-agent"]
+	path = long-term-memory-research-agent
+	url = https://github.com/TallMessiWu/long-term-memory-research-agent.git

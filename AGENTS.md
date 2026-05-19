@@ -8,7 +8,7 @@ Agent 动手实践项目，主题为纯手写 Function Calling Agent（零框架
 
 整个仓库分为两部分：
 - **`exercises/`** — 日常编程练习，按 `w<周>d<天>-<主题>` 组织
-- **根目录 `*-agent/`** — 三个简历项目（react-agent / research-assistant / multi-agent-collab）
+- **根目录 `*-agent/`** — 三个简历项目（react-agent / long-term-memory-research-agent / multi-agent-collab），均以 git submodule 形式链接独立仓
 
 ## 开发环境
 
@@ -93,7 +93,10 @@ exercises/
 ├── w2d4-crewai/                       # Day 7: CrewAI Role-based Agent
 └── w2d5-rag-agent/                    # Day 8: Chroma RAG + LangGraph
 
-react-agent/                           # ★ 项目 1: 手写 ReAct Agent（05-09~10）
-research-assistant/                    # ★ 项目 2: 长期记忆研究助手（05-16~17）
+react-agent/                           # ★ 项目 1: 手写 ReAct Agent（05-09~10）  · submodule → github.com/TallMessiWu/react-agent
+long-term-memory-research-agent/       # ★ 项目 2: 长期记忆研究助手（05-16~17） · submodule → github.com/TallMessiWu/long-term-memory-research-agent
 multi-agent-collab/                    # ★ 项目 3: Multi-Agent 协作写作（05-23~24）
 ```
+
+> 📦 简历项目使用 **git submodule** 维护：本仓只记录 commit 指针，源码与发布历史在各自独立仓里。
+> 首次 clone：`git clone --recurse-submodules <repo>`；后续同步：`git submodule update --remote`。
