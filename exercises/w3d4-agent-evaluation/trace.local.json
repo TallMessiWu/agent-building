@@ -1,0 +1,432 @@
+{
+  "events": [
+    {
+      "name": "agent.run",
+      "input": {
+        "task": "写一段 180 字以内的短文：为什么 AI Agent 需要工具调用？"
+      },
+      "output": {
+        "final_answer": "AI Agent 需要工具调用：模型参数有知识截止日期，实时和私有数据要靠外部工具获取[E1]；搜索、数据库、计算和代码执行能补齐模型能力边界[E2]；工具结果可记录、回放和评估，使 Agent 比纯文本推理更可审计[E3]。",
+        "route": [
+          "researcher",
+          "writer",
+          "critic"
+        ]
+      },
+      "scores": {},
+      "metadata": {
+        "case_id": "good",
+        "revision_count": 2
+      },
+      "timestamp": 1779330475.8397758
+    },
+    {
+      "name": "eval.outcome",
+      "input": {
+        "final_answer": "AI Agent 需要工具调用：模型参数有知识截止日期，实时和私有数据要靠外部工具获取[E1]；搜索、数据库、计算和代码执行能补齐模型能力边界[E2]；工具结果可记录、回放和评估，使 Agent 比纯文本推理更可审计[E3]。"
+      },
+      "output": {
+        "passed": true,
+        "length_ok": true,
+        "citations_ok": true,
+        "missing_citations": [],
+        "answer_chars": 113
+      },
+      "scores": {
+        "outcome_passed": true
+      },
+      "metadata": {
+        "case_id": "good"
+      },
+      "timestamp": 1779330475.8398094
+    },
+    {
+      "name": "eval.trajectory",
+      "input": {
+        "route": [
+          "researcher",
+          "writer",
+          "critic"
+        ],
+        "tool_observations": [
+          "E1",
+          "E2",
+          "E3"
+        ]
+      },
+      "output": {
+        "passed": true,
+        "has_expected_route": true,
+        "no_dead_loop": true,
+        "used_tools": true,
+        "notes": []
+      },
+      "scores": {
+        "trajectory_passed": true
+      },
+      "metadata": {
+        "case_id": "good"
+      },
+      "timestamp": 1779330475.8398259
+    },
+    {
+      "name": "eval.judge",
+      "input": {
+        "rubric": "coverage + groundedness + conciseness + auditability"
+      },
+      "output": {
+        "score": 1.0,
+        "coverage": 1.0,
+        "groundedness": 1.0,
+        "conciseness": 1.0,
+        "auditability": 1.0,
+        "rationale": "coverage=1.00; groundedness=1.00; conciseness=1.00; auditability=1.00"
+      },
+      "scores": {
+        "judge_score": 1.0
+      },
+      "metadata": {
+        "case_id": "good"
+      },
+      "timestamp": 1779330475.8398666
+    },
+    {
+      "name": "eval.summary",
+      "input": {},
+      "output": {
+        "success": true
+      },
+      "scores": {
+        "success": true,
+        "judge_score": 1.0
+      },
+      "metadata": {
+        "case_id": "good"
+      },
+      "timestamp": 1779330475.8398695
+    },
+    {
+      "name": "agent.run",
+      "input": {
+        "task": "写一段 180 字以内的短文：为什么 AI Agent 需要工具调用？"
+      },
+      "output": {
+        "final_answer": "AI Agent 需要工具调用，因为模型本身不能访问实时数据、私有系统和精确计算环境。工具能把搜索、数据库和代码执行接入任务循环，让结果更可靠，也更容易审计。",
+        "route": [
+          "researcher",
+          "writer",
+          "critic"
+        ]
+      },
+      "scores": {},
+      "metadata": {
+        "case_id": "missing_citation",
+        "revision_count": 1
+      },
+      "timestamp": 1779330475.839877
+    },
+    {
+      "name": "eval.outcome",
+      "input": {
+        "final_answer": "AI Agent 需要工具调用，因为模型本身不能访问实时数据、私有系统和精确计算环境。工具能把搜索、数据库和代码执行接入任务循环，让结果更可靠，也更容易审计。"
+      },
+      "output": {
+        "passed": false,
+        "length_ok": true,
+        "citations_ok": false,
+        "missing_citations": [
+          "[E1]",
+          "[E2]",
+          "[E3]"
+        ],
+        "answer_chars": 79
+      },
+      "scores": {
+        "outcome_passed": false
+      },
+      "metadata": {
+        "case_id": "missing_citation"
+      },
+      "timestamp": 1779330475.8398888
+    },
+    {
+      "name": "eval.trajectory",
+      "input": {
+        "route": [
+          "researcher",
+          "writer",
+          "critic"
+        ],
+        "tool_observations": [
+          "E1",
+          "E2",
+          "E3"
+        ]
+      },
+      "output": {
+        "passed": true,
+        "has_expected_route": true,
+        "no_dead_loop": true,
+        "used_tools": true,
+        "notes": []
+      },
+      "scores": {
+        "trajectory_passed": true
+      },
+      "metadata": {
+        "case_id": "missing_citation"
+      },
+      "timestamp": 1779330475.839898
+    },
+    {
+      "name": "eval.judge",
+      "input": {
+        "rubric": "coverage + groundedness + conciseness + auditability"
+      },
+      "output": {
+        "score": 0.55,
+        "coverage": 0.0,
+        "groundedness": 0.2,
+        "conciseness": 1.0,
+        "auditability": 1.0,
+        "rationale": "coverage=0.00; groundedness=0.20; conciseness=1.00; auditability=1.00"
+      },
+      "scores": {
+        "judge_score": 0.55
+      },
+      "metadata": {
+        "case_id": "missing_citation"
+      },
+      "timestamp": 1779330475.8399196
+    },
+    {
+      "name": "eval.summary",
+      "input": {},
+      "output": {
+        "success": false
+      },
+      "scores": {
+        "success": false,
+        "judge_score": 0.55
+      },
+      "metadata": {
+        "case_id": "missing_citation"
+      },
+      "timestamp": 1779330475.839922
+    },
+    {
+      "name": "agent.run",
+      "input": {
+        "task": "写一段 180 字以内的短文：为什么 AI Agent 需要工具调用？"
+      },
+      "output": {
+        "final_answer": "AI Agent 需要工具调用：模型参数有知识截止日期，实时和私有数据要靠外部工具获取[E1]；搜索、数据库、计算和代码执行能补齐模型能力边界[E2]；工具结果可记录、回放和评估，使 Agent 比纯文本推理更可审计[E3]。同时，工具还能把企业内部系统、权限校验、状态更新和工作流执行接入 Agent，使它从聊天助手变成能真正完成业务动作的软件系统；但如果没有评估闭环，团队很难知道这些动作在不同任务、不同工具失败条件下是否稳定可靠。",
+        "route": [
+          "researcher",
+          "writer",
+          "critic"
+        ]
+      },
+      "scores": {},
+      "metadata": {
+        "case_id": "too_long",
+        "revision_count": 2
+      },
+      "timestamp": 1779330475.8399265
+    },
+    {
+      "name": "eval.outcome",
+      "input": {
+        "final_answer": "AI Agent 需要工具调用：模型参数有知识截止日期，实时和私有数据要靠外部工具获取[E1]；搜索、数据库、计算和代码执行能补齐模型能力边界[E2]；工具结果可记录、回放和评估，使 Agent 比纯文本推理更可审计[E3]。同时，工具还能把企业内部系统、权限校验、状态更新和工作流执行接入 Agent，使它从聊天助手变成能真正完成业务动作的软件系统；但如果没有评估闭环，团队很难知道这些动作在不同任务、不同工具失败条件下是否稳定可靠。"
+      },
+      "output": {
+        "passed": false,
+        "length_ok": false,
+        "citations_ok": true,
+        "missing_citations": [],
+        "answer_chars": 218
+      },
+      "scores": {
+        "outcome_passed": false
+      },
+      "metadata": {
+        "case_id": "too_long"
+      },
+      "timestamp": 1779330475.8399343
+    },
+    {
+      "name": "eval.trajectory",
+      "input": {
+        "route": [
+          "researcher",
+          "writer",
+          "critic"
+        ],
+        "tool_observations": [
+          "E1",
+          "E2",
+          "E3"
+        ]
+      },
+      "output": {
+        "passed": true,
+        "has_expected_route": true,
+        "no_dead_loop": true,
+        "used_tools": true,
+        "notes": []
+      },
+      "scores": {
+        "trajectory_passed": true
+      },
+      "metadata": {
+        "case_id": "too_long"
+      },
+      "timestamp": 1779330475.839942
+    },
+    {
+      "name": "eval.judge",
+      "input": {
+        "rubric": "coverage + groundedness + conciseness + auditability"
+      },
+      "output": {
+        "score": 0.921,
+        "coverage": 1.0,
+        "groundedness": 1.0,
+        "conciseness": 0.683,
+        "auditability": 1.0,
+        "rationale": "coverage=1.00; groundedness=1.00; conciseness=0.68; auditability=1.00"
+      },
+      "scores": {
+        "judge_score": 0.921
+      },
+      "metadata": {
+        "case_id": "too_long"
+      },
+      "timestamp": 1779330475.8399591
+    },
+    {
+      "name": "eval.summary",
+      "input": {},
+      "output": {
+        "success": false
+      },
+      "scores": {
+        "success": false,
+        "judge_score": 0.921
+      },
+      "metadata": {
+        "case_id": "too_long"
+      },
+      "timestamp": 1779330475.839961
+    },
+    {
+      "name": "agent.run",
+      "input": {
+        "task": "写一段 180 字以内的短文：为什么 AI Agent 需要工具调用？"
+      },
+      "output": {
+        "final_answer": "AI Agent 需要工具调用：模型参数有知识截止日期，实时和私有数据要靠外部工具获取[E1]；搜索、数据库、计算和代码执行能补齐模型能力边界[E2]；工具结果可记录、回放和评估，使 Agent 比纯文本推理更可审计[E3]。",
+        "route": [
+          "writer",
+          "writer",
+          "critic",
+          "writer",
+          "critic"
+        ]
+      },
+      "scores": {},
+      "metadata": {
+        "case_id": "bad_trajectory",
+        "revision_count": 4
+      },
+      "timestamp": 1779330475.8399642
+    },
+    {
+      "name": "eval.outcome",
+      "input": {
+        "final_answer": "AI Agent 需要工具调用：模型参数有知识截止日期，实时和私有数据要靠外部工具获取[E1]；搜索、数据库、计算和代码执行能补齐模型能力边界[E2]；工具结果可记录、回放和评估，使 Agent 比纯文本推理更可审计[E3]。"
+      },
+      "output": {
+        "passed": true,
+        "length_ok": true,
+        "citations_ok": true,
+        "missing_citations": [],
+        "answer_chars": 113
+      },
+      "scores": {
+        "outcome_passed": true
+      },
+      "metadata": {
+        "case_id": "bad_trajectory"
+      },
+      "timestamp": 1779330475.8399715
+    },
+    {
+      "name": "eval.trajectory",
+      "input": {
+        "route": [
+          "writer",
+          "writer",
+          "critic",
+          "writer",
+          "critic"
+        ],
+        "tool_observations": []
+      },
+      "output": {
+        "passed": false,
+        "has_expected_route": false,
+        "no_dead_loop": false,
+        "used_tools": false,
+        "notes": [
+          "缺少 researcher -> writer -> critic 的关键路径",
+          "revision_count=4，超过上限 2",
+          "没有记录工具观察，最终答案不可回放"
+        ]
+      },
+      "scores": {
+        "trajectory_passed": false
+      },
+      "metadata": {
+        "case_id": "bad_trajectory"
+      },
+      "timestamp": 1779330475.839993
+    },
+    {
+      "name": "eval.judge",
+      "input": {
+        "rubric": "coverage + groundedness + conciseness + auditability"
+      },
+      "output": {
+        "score": 0.65,
+        "coverage": 1.0,
+        "groundedness": 0.4,
+        "conciseness": 1.0,
+        "auditability": 0.2,
+        "rationale": "coverage=1.00; groundedness=0.40; conciseness=1.00; auditability=0.20; trajectory_notes=缺少 researcher -> writer -> critic 的关键路径 / revision_count=4，超过上限 2 / 没有记录工具观察，最终答案不可回放"
+      },
+      "scores": {
+        "judge_score": 0.65
+      },
+      "metadata": {
+        "case_id": "bad_trajectory"
+      },
+      "timestamp": 1779330475.84001
+    },
+    {
+      "name": "eval.summary",
+      "input": {},
+      "output": {
+        "success": false
+      },
+      "scores": {
+        "success": false,
+        "judge_score": 0.65
+      },
+      "metadata": {
+        "case_id": "bad_trajectory"
+      },
+      "timestamp": 1779330475.8400118
+    }
+  ]
+}
