@@ -22,6 +22,7 @@ uv run python exercises/w3d1-reflexion/agent.py --self-test
 uv run python exercises/w3d2-plan-execute/agent.py --self-test
 uv run python exercises/w3d3-langgraph-supervisor/agent.py --self-test
 uv run python exercises/w3d4-agent-evaluation/agent.py --self-test
+uv run python exercises/w3d5-coding-agent-story/agent.py --self-test
 
 # 交互式 Notebook
 uv run jupyter notebook exercises/w1d1-function-calling/agent.ipynb
@@ -36,7 +37,7 @@ agent-building/
 ├── Agent_4周学习计划.xlsx
 ├── docs/index.html                # → GitHub Pages 学习看板
 │
-├── exercises/                     # 每日编程练习（12 天）
+├── exercises/                     # 每日编程练习（13 天）
 │   ├── w1d1-function-calling/     # Day 1: Function Calling
 │   ├── w1d2-mcp-server/           # Day 2: MCP 协议
 │   ├── w1d3-resilient-agent/      # Day 3: 重试/熔断/降级
@@ -48,7 +49,8 @@ agent-building/
 │   ├── w3d1-reflexion/            # Day 9: Reflexion + Self-Refine
 │   ├── w3d2-plan-execute/         # Day 10: Plan-and-Execute + DAG
 │   ├── w3d3-langgraph-supervisor/ # Day 11: LangGraph Supervisor
-│   └── w3d4-agent-evaluation/     # Day 12: Agent Evaluation
+│   ├── w3d4-agent-evaluation/     # Day 12: Agent Evaluation
+│   └── w3d5-coding-agent-story/   # Day 13: Coding Agent + SGLang Story
 │
 ├── react-agent/                          # 📦 项目 1: 手写 ReAct Agent (submodule)
 ├── long-term-memory-research-agent/      # 📦 项目 2: 长期记忆研究助手 (submodule)
@@ -75,6 +77,7 @@ agent-building/
 | **Plan-and-Execute** | `w3d2/agent.py` | 任务计划 DAG + 可并行批次调度 |
 | **LangGraph Supervisor** | `w3d3/agent.py` | supervisor 路由 + Researcher/Writer/Critic 修订闭环 |
 | **Agent Evaluation** | `w3d4/agent.py` | 成功率 + 轨迹评估 + LLM-as-judge 风格 rubric + trace |
+| **Coding Agent Story** | `w3d5/agent.py` | ACI / 长任务工作流 / 安全风险 → SGLang 面试故事大纲 |
 
 ## 技术栈
 

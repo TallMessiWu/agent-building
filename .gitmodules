@@ -4,3 +4,6 @@
 [submodule "long-term-memory-research-agent"]
 	path = long-term-memory-research-agent
 	url = https://github.com/TallMessiWu/long-term-memory-research-agent.git
+[submodule "multi-agent-collab"]
+	path = multi-agent-collab
+	url = https://github.com/TallMessiWu/multi-agent-collab.git
